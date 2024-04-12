@@ -1,0 +1,7 @@
+pandas
+streamlit
+accelerate 
+datasets 
+pymongo 
+sentence_transformers
+-U transformers
