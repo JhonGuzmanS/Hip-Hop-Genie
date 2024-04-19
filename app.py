@@ -2,6 +2,8 @@ import sys
 import ast
 import streamlit as st
 import base64
+import os
+from dotenv import load_dotenv
 
 import pandas as pd
 import pymongo
@@ -53,14 +55,16 @@ def get_mongo_client(mongo_uri):
 
 # Environment variables in Google Colaboratory.
 # https://medium.com/@parthdasawant/how-to-use-secrets-in-google-colab-450c38e3ec75
-mongo_uri = userdata.get("MONGO_URI")
+load_dotenv()
+mongo_uri = os.getenv("MONGO_URI")
 if not mongo_uri:
     print("MONGO_URI not set in environment variables")
 
-mongo_client = get_mongo_client(mongo_uri)
+#mongo_client = get_mongo_client(mongo_uri)
 
-# Ingest data into MongoDB.
+"""# Ingest data into MongoDB.
 db = mongo_client["songs"]
 # Reference to MongoDB collection
-collection = db["songs_collection"]
+collection = db["songs_collection"]"""
 
+st.write("Hello World!")
