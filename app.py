@@ -2,13 +2,11 @@ import sys
 import ast
 import streamlit as st
 import base64
+from main import RAGquery
 
-import pandas as pd
-import pymongo
-
-from datasets import load_dataset
-from sentence_transformers import SentenceTransformer 
-from transformers import AutoTokenizer, AutoModelForCausalLM
+#from datasets import load_dataset
+#from sentence_transformers import SentenceTransformer 
+# from transformers import AutoTokenizer, AutoModelForCausalLM
 
 st.set_page_config(
     page_title="Hip Hop Genie",
@@ -17,50 +15,19 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
-dataset = load_dataset("huggingartists/drake")
 
-# Convert the dataset to a pandas DataFrame.
-dataset_df = pd.DataFrame(dataset['train'])
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-embedding_model = SentenceTransformer("thenlper/gte-small")
+# Display chat messages from history on app rerun
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
-# Input: string.
-# Output: list of floats.
-
-
-def get_embedding(text):
-    if not text.strip():
-        print("Attempted to get embedding for empty text.")
-        return []
-
-    embedding = embedding_model.encode(text)
-
-    return embedding.tolist()
-
-dataset_df["embedding"] = dataset_df["text"].apply(get_embedding)
-
-dataset_df["embedding"]
-
-def get_mongo_client(mongo_uri):
-    """Establish connection to the MongoDB."""
-    try:
-        client = pymongo.MongoClient(mongo_uri)
-        print("Connection to MongoDB successful!")
-        return client
-    except pymongo.errors.ConnectionFailure as e:
-        print(f"Connection failed: {e}")
-        return None
-
-# Environment variables in Google Colaboratory.
-# https://medium.com/@parthdasawant/how-to-use-secrets-in-google-colab-450c38e3ec75
-mongo_uri = userdata.get("MONGO_URI")
-if not mongo_uri:
-    print("MONGO_URI not set in environment variables")
-
-mongo_client = get_mongo_client(mongo_uri)
-
-# Ingest data into MongoDB.
-db = mongo_client["songs"]
-# Reference to MongoDB collection
-collection = db["songs_collection"]
-
+if prompt := st.chat_input("What is up?"):
+    st.chat_message("user").markdown(prompt)
+    response = RAGquery(prompt)
+    with st.chat_message("assistant"):  
+        st.markdown(response)
+    # Add assistant response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": response})
