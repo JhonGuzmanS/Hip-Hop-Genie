@@ -17,6 +17,7 @@ def save_note(note):
     return "note saved"
 
 
+# Engine for the LLM to use
 note_engine = FunctionTool.from_defaults(
     fn=save_note,
     name="note_saver",

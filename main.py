@@ -3,6 +3,8 @@ import os
 import pandas as pd
 import requests
 from llama_index.core.query_engine import PandasQueryEngine
+# pip install llama-index llama-index-experimental
+from llama_index.experimental.query_engine import PandasQueryEngine
 from prompts import new_prompt, instruction_str, context
 from note_engine import note_engine
 from pdf import drake_engine
@@ -40,10 +42,12 @@ tools = [
 llm = OpenAI(model="gpt-3.5-turbo-0613")
 agent = ReActAgent.from_tools(tools, llm=llm, verbose=True, context=context)
 
-"""while (prompt := input("Enter a prompt (q to quit): ")) != "q":
-    result = agent.query(prompt)
-    print(result)"""
     
 def RAGquery(prompt):
     return agent.query(prompt)
      
+
+while (prompt := input("Enter a prompt (q to quit): ")) != "q":
+    result = agent.query(prompt)
+    print(result)
+

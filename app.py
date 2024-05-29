@@ -3,6 +3,8 @@ import ast
 import streamlit as st # type: ignore
 import base64
 from main import RAGquery
+import os
+from dotenv import load_dotenv
 
 #from datasets import load_dataset
 #from sentence_transformers import SentenceTransformer 
@@ -31,3 +33,4 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(response)
     # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": response})
+
