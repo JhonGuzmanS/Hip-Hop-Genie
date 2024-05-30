@@ -7,6 +7,7 @@ from prompts import new_prompt, instruction_str, context
 from note_engine import *
 from pdf import drake_engine
 from add_doc import search_json_
+from llama_index.core import SimpleDirectoryReader
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
@@ -29,15 +30,11 @@ kendrick_query_engine = PandasQueryEngine(df=kendrick_df, verbose=False, instruc
 kendrick_query_engine.update_prompts({"pandas_prompt":new_prompt})
 
 
-
 # Add in hugging face model - text generation inference
 # Use a pipeline as a high-level helper
 
-
-#pop_query_engine.query("How many songs are there") # returns the query output
 # tools that the LLM can use
     
-
 tools = [
     
     note_engine,
@@ -58,6 +55,34 @@ tools = [
         description="this gives information on drake's history and his career"))
 ]
 
+def add_file(file_path):
+    # Read the content of the text file
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    # Create a temporary directory and write the content to a file
+    temp_dir = os.path.join(os.getcwd(), "temp_dir")
+    os.makedirs(temp_dir, exist_ok=True)
+    temp_file_path = os.path.join(temp_dir, "temp_file.txt")
+
+    with open(temp_file_path, 'w', encoding='utf-8') as temp_file:
+        temp_file.write(content)
+
+    # Convert the content into a SimpleDirectoryReader object
+    reader = SimpleDirectoryReader(temp_dir)
+    document = reader.load_data()
+
+    # Create a new tool for the SimpleDirectoryReader
+    query_engine = document.create_query_engine(verbose=False)
+    metadata = ToolMetadata(
+        name="text_file_reader",
+        description="this reads and queries the content of a provided text file"
+    )
+
+    text_file_tool = QueryEngineTool(query_engine=query_engine, metadata=metadata)
+
+    # Add the new tool to the tools list
+    tools.append(text_file_tool)
 
 llm = OpenAI(model="gpt-4-turbo")
 agent = ReActAgent.from_tools(tools, llm=llm, verbose=True, context=context)

@@ -1,6 +1,6 @@
 # Hip-Hop Genie
 
-![Hip-Hop Genie Banner](link-to-banner-image)
+![Hip-Hop Genie Banner](content/genie_banner.jpg)
 
 ## Table of Contents
 - [About the Project](#about-the-project)
@@ -16,9 +16,18 @@ Hip-Hop Genie is inspired by the desire to not only find specific lyrics but als
 
 Using Retrieval-Augmented Generation (RAG) and the Genius API, alongside ChatGPT and Llama-Index, Hip-Hop Genie provides a comprehensive tool for hip-hop enthusiasts and aspiring lyricists.
 
+![test](content/Flowchart.png)
+
 ## Why not ChatGPT?
 Unlike ChatGPT, Hip-Hop Genie does not have the most up-to-date information. As of this post, Hip-Hop Genie has data up to January 2022.
+![proof](content/chatdoesnotGPT.PNG)
 
+*UPDATE: with the release of GPT4 and GPT4o, that is no longer the case*
+
+### However! This is your personalized assistant
+With the goal of uniqueness and personal privacy, a personal agent is useful in using data that only you have control of, without the worries of BIG TECH companies coming after you.
+
+![What can you do](content/intro.png)
 
 ## Getting Started
 To get started with Hip-Hop Genie, follow these steps:
@@ -27,7 +36,7 @@ To get started with Hip-Hop Genie, follow these steps:
 3. Set up the Genius API key: 
    - Sign up at [Genius](https://genius.com/developers) to get your API key.
    - Create a `.env` file and add your API key: `GENIUS_API_KEY=your_api_key`
-4. Run the application: `python app.py`
+4. Run the application using streamlit: `python -m streamlit run app.py`
 
 ## Uses
 Hip-Hop Genie can be used for:
@@ -38,10 +47,8 @@ Hip-Hop Genie can be used for:
 ## Demo
 Check out our demo to see Hip-Hop Genie in action!
 
-![Hip-Hop Genie Demo GIF](link-to-demo-gif)
+![Hip-Hop Genie Demo GIF](content/test.gif)
 
-For more details and a step-by-step guide, visit our [Wiki](link-to-wiki).
 
 ---
 
-Feel free to reach out with any questions or contributions!

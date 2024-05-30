@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from llama_index.core import StorageContext, VectorStoreIndex, load_index_from_storage
+from llama_index.core import StorageContext, VectorStoreIndex, load_index_from_storage, SimpleDirectoryReader
 from llama_index.readers.file import PDFReader
 from llama_index.readers.genius import GeniusReader
 from lyricsgenius import Genius
@@ -43,3 +43,11 @@ pdf_path = os.path.join("data", "Drake_wiki.pdf")
 drake_pdf = PDFReader().load_data(file=pdf_path)
 drake_index = get_index(drake_pdf, "drake")
 drake_engine = drake_index.as_query_engine()
+#print(drake_engine.query("what are 3 songs Drake has made"))
+
+path = os.path.join(os.getcwd(), "data")
+test_pdf = SimpleDirectoryReader(path).load_data()
+test_index = get_index(test_pdf, "note")
+test_engine = test_index.as_query_engine()
+print("done")
+#print(test_engine.query("print out every line"))
