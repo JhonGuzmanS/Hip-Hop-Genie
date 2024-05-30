@@ -5,3 +5,5 @@ datasets
 pymongo 
 sentence_transformers
 -U transformers
+geniusreader
+lyricsgenius
